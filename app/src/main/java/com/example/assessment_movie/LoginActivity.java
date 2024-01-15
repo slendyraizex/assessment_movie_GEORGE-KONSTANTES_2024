@@ -3,13 +3,18 @@ package com.example.assessment_movie;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.assessment_movie.utils.NetworkChangeReceiver;
+
 public class LoginActivity extends AppCompatActivity {
+    private NetworkChangeReceiver networkChangeReceiver;
 
     private EditText userEdt, passEdt;
     private Button loginBtn;
@@ -17,8 +22,24 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        networkChangeReceiver = new NetworkChangeReceiver(this);
 
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Internet Connection check
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(networkChangeReceiver);
     }
 
     private void initView(){
