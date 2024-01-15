@@ -139,7 +139,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void getMovieDetails(int movieId) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String url = "https://your-movie-api.com/api/movies/" + movieId;
+            String url = "https://app-vpigadas.herokuapp.com/api/movies/" + movieId;
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     response -> {
